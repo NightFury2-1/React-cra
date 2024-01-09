@@ -11,7 +11,7 @@ const App = () => {
 
   const searchMovies = async (title) => {
     await axios.get(`${API_URL}&s=${title}`).then(function (resp) {
-      console.log(resp);
+      //console.log(resp);
       setMovies(resp.data.Search);
     });
   };
