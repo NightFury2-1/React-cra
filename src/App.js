@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import MovieCard from "./MovieCard";
 import "./App.css";
 import SearchIcon from "./search.svg";
-
+import axios from "axios";
 const API_URL = process.env.REACT_APP_API_URL;
 
 const App = () => {
@@ -10,10 +10,10 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const searchMovies = async (title) => {
-    const response = await fetch(`${API_URL}&s=${title}`);
-    const data = await response.json();
-
-    setMovies(data.Search);
+    await axios.get(`${API_URL}&s=${title}`).then(function (resp) {
+      console.log(resp);
+      setMovies(resp.data.Search);
+    });
   };
   useEffect(() => {
     searchMovies("Spiderman");
@@ -37,7 +37,7 @@ const App = () => {
       {movies?.length > 0 ? (
         <div className="container">
           {movies.map((movie) => (
-            <MovieCard movie={movie} />
+            <MovieCard key={movie.imdbID} movie={movie} />
           ))}
         </div>
       ) : (
